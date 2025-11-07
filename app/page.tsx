@@ -4,11 +4,11 @@ import Link from "next/link";
 export default function Home() {
   const links = [
     {
-      href: "/gestion-bdd",
+      href: "/db-management",
       label: "Gestion de la base de données",
     },
     {
-      href: "/dashboard-obs",
+      href: "/obs",
       label: "Dashboard affichage OBS",
     },
   ];
