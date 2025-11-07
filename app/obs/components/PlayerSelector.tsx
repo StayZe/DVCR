@@ -58,7 +58,7 @@ function Select({
         <option value="">Sélectionner...</option>
         {players.map((p) => (
           <option key={p.id} value={`${p.firstname} ${p.lastname}`}>
-            {p.firstname} {p.lastname} ({p.number})
+            {p.firstname} {p.lastname} ({p.number}) - {p.team.name}
           </option>
         ))}
       </select>

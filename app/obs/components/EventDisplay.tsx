@@ -10,46 +10,46 @@ export default function EventDisplay() {
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
 
   // Fonction d'animation d'affichage (useCallback pour stable reference)
-const showEvent = useCallback(() => {
-  const el = containerRef.current;
-  if (!el) return;
+  const showEvent = useCallback(() => {
+    const el = containerRef.current;
+    if (!el) return;
 
-  // On stoppe toute animation en cours
-  if (timelineRef.current) {
-    timelineRef.current.kill();
-  }
-  gsap.killTweensOf(el);
+    // On stoppe toute animation en cours
+    if (timelineRef.current) {
+      timelineRef.current.kill();
+    }
+    gsap.killTweensOf(el);
 
-  // Position de départ à gauche
-  gsap.set(el, { x: "-100%", opacity: 0 });
+    // Position de départ à gauche
+    gsap.set(el, { x: "-100%", opacity: 0 });
 
-  // Entrée gauche → visible → sortie droite
-  timelineRef.current = gsap
-    .timeline({
-      defaults: { ease: "power3.inOut" },
-      onComplete: () => {
-        // Fin d'affichage après 8s
-        clearEvent();
-        timelineRef.current = null;
-      },
-    })
-    .to(el, { x: "0%", opacity: 1, duration: 1 }) // entrée
-    .to(el, { x: "0%", opacity: 1, duration: 6 }) // visible
-    .to(el, { x: "-100%", opacity: 0, duration: 1 }); // sortie
-}, [clearEvent]);
+    // Entrée gauche → visible → sortie droite
+    timelineRef.current = gsap
+      .timeline({
+        defaults: { ease: "power3.inOut" },
+        onComplete: () => {
+          // Fin d'affichage après 8s
+          clearEvent();
+          timelineRef.current = null;
+        },
+      })
+      .to(el, { x: "0%", opacity: 1, duration: 1 }) // entrée
+      .to(el, { x: "0%", opacity: 1, duration: 6 }) // visible
+      .to(el, { x: "-100%", opacity: 0, duration: 1 }); // sortie
+  }, [clearEvent]);
 
-// Détection de nouvel event
-useEffect(() => {
-  if (!currentEvent) return;
+  // Détection de nouvel event
+  useEffect(() => {
+    if (!currentEvent) return;
 
-  // On lance l'animation
-  showEvent();
-}, [currentEvent, showEvent]);
+    // On lance l'animation
+    showEvent();
+  }, [currentEvent, showEvent]);
 
   // Cleanup au démontage du composant
   useEffect(() => {
     const el = containerRef.current;
-    
+
     return () => {
       if (timelineRef.current) {
         timelineRef.current.kill();
@@ -82,8 +82,8 @@ useEffect(() => {
             : type}
         </p>
 
-        {/* Détails */}
-        {type === "CHANGEMENT" && (
+        {/* Si c'est un changement */}
+        {type === "CHANGEMENT" && playerIn && playerOut && (
           <div className="text-lg leading-tight space-y-1">
             {playerIn && (
               <p className="text-green-300 font-semibold">
@@ -98,10 +98,9 @@ useEffect(() => {
           </div>
         )}
 
+        {/* Si ce n'est pas un changement */}
         {type !== "CHANGEMENT" && player && (
-          <p className="text-lg font-semibold text-white/90">
-            👟 {player}
-          </p>
+          <p className="text-lg font-semibold text-white/90">👟 {player}</p>
         )}
       </div>
     </div>
