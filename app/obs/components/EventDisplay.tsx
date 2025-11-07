@@ -72,10 +72,11 @@ export default function EventDisplay() {
 
   // Nettoyage au démontage
   useEffect(() => {
+    const element = containerRef.current;
     return () => {
       timelineRef.current?.kill();
-      if (containerRef.current) {
-        gsap.killTweensOf(containerRef.current);
+      if (element) {
+        gsap.killTweensOf(element);
       }
     };
   }, []);
